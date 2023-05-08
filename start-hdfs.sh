@@ -1,19 +1,18 @@
-#!/bin/bash
-
-#Automatical stats one namenode and 3 datanodes in a docker network
+#!/bin/sh
 
 #namenode
-docker run -d --net dock_net --hostname namenode-master -p 9870:9870 -p 50030:50030 -p 8020:8020 --name namenode namenode:latest
+docker start namenode
 
 #datanode 1
-docker run -d --net dock_net --name datanode1 datanode:latest
+docker start datanode1
 
 #datanode 2
-docker run -d --net dock_net --name datanade2 datanode:latest
+docker start datanode2
 
 #datanode 3
-docker run -d --net dock_net --name datanode3 datanode:latest
+docker start datanode3
 
 #datanode for operating hadoop cluster(attached to current terminal)
-docker run -it --net dock_net --name datanode_for_use datanode:latest /bin/bash
+docker start datanode_for_use
+docker exec -it datanode_for_use /bin/bash
 
