@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
-import {PieChart} from './PieChart';
+import DecoratedPieChart from './PieChart';
+
 
 export class Home extends Component {
   static displayName = Home.name;
 
   render() {
     const data = [
-      { title: 'Red', value: 300, color: '#FF6384' },
-      { title: 'Blue', value: 200, color: '#36A2EB' },
-      { title: 'Yellow', value: 100, color: '#FFCE56' },
+      { key: 'Red', votes: 300, percentage: 50 },
+      { key: 'Blue', votes: 150, percentage: 30 },
+      { key: 'Yellow', votes: 120, percentage: 20 },
     ];
-
-    const renderLabel = (props) => {
-      const { x, y, dataEntry } = props;
-      return (
-        <text x={x} y={y} textAnchor="middle" dominantBaseline="central">
-          {dataEntry.title}
-        </text>
-      );
-    };
+    console.log("home rendered")
 
     return (
       <div>
         <h1>Hello, world!</h1>
-        <PieChart data={data} renderLabel={renderLabel}></PieChart>
+        <DecoratedPieChart data={data} ></DecoratedPieChart>
         <p>Welcome to your new single-page application, built with:</p>
         <ul>
           <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
