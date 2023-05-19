@@ -1,12 +1,20 @@
 import {useState} from "react";
 import React from 'react';
 
+import PieSelectBox from "./PieSelectBox";
+import PieNameBox from "./PieNameBox";
+
+import {PieNameContext} from "./PieNameContext"
+
+
 import { PieChart } from "react-minimal-pie-chart";
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const DecoratedPieChart = (props) => {
   const [show, setShow] = useState(true);
+  const [name, setName] = useState('bitcoin');
+
 
   let data = [];
 
@@ -37,7 +45,17 @@ const DecoratedPieChart = (props) => {
   return (
     <div onClick={(e) => setShow(!show)}>
       <div className="inline-container">
-        <h4>Age Demographic</h4>
+      <div className="row">
+        <PieNameContext.Provider value={ [name, setName] }>
+          <div className="row-sm-4">
+            <PieNameBox></PieNameBox>
+          </div>
+          <div className="row-sm-4">
+            <PieSelectBox onClick={(e) => setShow(false)} ></PieSelectBox>
+          </div>
+        </PieNameContext.Provider>
+      
+      </div>
         {show ? <FaChevronDown /> : <FaChevronUp />}
       </div>
 
@@ -51,7 +69,7 @@ const DecoratedPieChart = (props) => {
               center={[50, 50]}
               data={data}
               lengthAngle={360}
-              lineWidth={15}
+              lineWidth={30}
               paddingAngle={0}
               radius={50}
               rounded
@@ -85,7 +103,7 @@ const DecoratedPieChart = (props) => {
           height: 200px;
           margin-left: auto;
           margin-right: auto;
-          width: 200px;
+          width: 300px;
         }
 
         .inline-container {
