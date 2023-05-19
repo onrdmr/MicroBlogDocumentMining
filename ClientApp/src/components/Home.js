@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import DecoratedPieChart from './DecoratedPieChart';
-
+import SimiliaritySearchBar from './SimiliaritySearchBar';
+import SimiliarityTextArea from './SimiliarityTextArea';
+import TopicList from './TopicList';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -16,13 +18,27 @@ export class Home extends Component {
     return (
       <div className="container">
       <div className="row">
-        <div className="col-sm-4">
-          
-          <DecoratedPieChart data={data} ></DecoratedPieChart>
+        <div className="col-sm-4 m-10">
+          <DecoratedPieChart data={data}></DecoratedPieChart>
         </div>
-        <div className="col-sm-4">
-          <h3>Component 2</h3>
-          {/* Content for Component 2 */}
+        <div className="col-sm-8">
+          <div className="row-sm-4 ">
+          <div className="text-center">
+            {/* Your text */}
+            <h3>Similiar Document Analysis</h3>
+          </div>
+            <div>
+              <SimiliaritySearchBar></SimiliaritySearchBar>
+              <SimiliarityTextArea text={"Lorem ipsum dolor sit amet, consectetur adipadnwjkbwakjdbawıdıawdbgaıwudbuııııııııııııııııııııııııııııııııııııııııııııııııııiscing elit. Nulla tristique diam vel libero lobortis, in faucibus elit vulputate. Maecenas lacinia, sapien sit amet auctor pulvinar, nisl leo tincidunt nibh"}></SimiliarityTextArea>
+
+            </div>
+          </div>
+          <div className="row-sm-4 mt-5">
+            <h3>Topics in bitcoin tweets</h3>
+            <div>
+              <TopicList></TopicList>
+            </div>
+          </div>
         </div>
         
       </div>

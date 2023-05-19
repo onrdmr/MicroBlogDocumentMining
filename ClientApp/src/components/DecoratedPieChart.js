@@ -1,10 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 import React from 'react';
 
 import PieSelectBox from "./PieSelectBox";
 import PieNameBox from "./PieNameBox";
 
-import {PieNameContext} from "./PieNameContext"
+import { PieNameContext } from "./PieNameContext"
 
 
 import { PieChart } from "react-minimal-pie-chart";

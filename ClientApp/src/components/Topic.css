@@ -1,0 +1,75 @@
+  tr.skills {
+    padding: 1;
+  }
+  
+  tr.skills td {
+      background-color: #727e7f;
+      position: relative;
+      line-height: 2em;
+      margin: 2em 0;
+    padding: 0 .5em;
+    position: relative;
+    color: white;
+  }
+  
+  tr.skills td span {
+    position: relative;
+    z-index: 10;
+    font-size: .8em;
+  }
+  
+  tr.skills td:after {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    bottom: 3px;
+    content: '';
+  }
+  
+  tr.skills td.p1:after {
+    width: 10%;
+  }
+
+  tr.skills td.p2:after {
+    width: 20%;
+  }
+
+  tr.skills td.p3:after {
+    width: 30%;
+  }
+
+  tr.skills td.p4:after {
+    width: 40%;
+  }
+
+  tr.skills td.p5:after {
+    width: 50%;
+  }
+
+  tr.skills td.p6:after {
+    width: 60%;
+  }
+
+  tr.skills td.p7:after {
+    width: 70%;
+  }
+  
+  tr.skills td.p8:after {
+    width: 80%;
+  }
+  
+  tr.skills td.p9:after {
+    width: 90%;
+  }
+  
+  tr.skills td.ten:after {
+    right: 3px;
+  }
+  
+  tr.skills.graphic td:after {
+      background-color: #34495e;   
+  }
+  
+  tr.skills.web td:after {
+      background-color: #e74c3c;   
+  }
