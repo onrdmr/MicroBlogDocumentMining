@@ -31,11 +31,9 @@ ENV PATH=$PATH:$JAVA_HOME:$JAVA_HOME/bin
 #***setup hadoop***#
 ADD ./assets/${HADOOP_TAR_NAME} .
 
-ADD ./assets/dummy.txt /home
-
 #adding path variables and environment variables for HADOOP
 ENV HADOOP_HOME=/opt/hadoop-${HADOOP_VER}
-ENV HADOOP_STREAMING_JAR=$HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar
+ENV HADOOP_STREAMING_JAR=$HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-${HADOOP_VER}.jar
 ENV PATH=$PATH:$HADOOP_HOME
 ENV PATH=$PATH:$HADOOP_HOME/bin
 #after this all binaries are availabes ash shell comand, which means you can directly use 

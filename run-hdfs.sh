@@ -15,5 +15,5 @@ docker run -d --net dock_net --name datanode2 datanode:latest
 docker run -d --net dock_net --name datanode3 datanode:latest
 
 #datanode for operating hadoop cluster(attached to current terminal)
-docker run -it --net dock_net --name datanode_for_use datanode:latest /bin/bash
+# docker run -it --net dock_net --name datanode_for_use datanode:latest /bin/bash
 
