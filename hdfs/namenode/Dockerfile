@@ -9,7 +9,8 @@ RUN mkdir /opt/hdfs/namenode
 
 # ***ADD CONFIG FILES***
 ADD ./config-files/hdfs-site.xml $HADOOP_HOME/etc/hadoop/
-ADD ./assets/Bitcoin_tweets_dataset_2.csv /home
+ADD ./assets/Bitcoin_tweets_dataset_3.csv /home
+ADD ./assets/WordCounter.jar /home
 
 # necessary before running namenode
 RUN hdfs namenode -format
