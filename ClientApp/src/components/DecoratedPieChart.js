@@ -1,11 +1,10 @@
-import { useState } from "react";
-import React from 'react';
+import { useState, useEffect } from "react";
+import React from "react";
 
 import PieSelectBox from "./PieSelectBox";
 import PieNameBox from "./PieNameBox";
 
-import { PieNameContext } from "./PieNameContext"
-
+import { PieNameContext } from "./PieNameContext";
 
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -13,8 +12,19 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const DecoratedPieChart = (props) => {
   const [show, setShow] = useState(true);
-  const [name, setName] = useState('bitcoin');
+  const [name, setName] = useState("bitcoin");
+  const [dataa, setData] = useState([]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const response = await fetch("http://localhost:50030/wordcount", {mode: "cors"});
+    const jsonData = await response.json();
+    console.log(jsonData);
+    setData(jsonData.data.data)
+  }
 
   let data = [];
 
@@ -45,17 +55,16 @@ const DecoratedPieChart = (props) => {
   return (
     <div onClick={(e) => setShow(!show)}>
       <div className="inline-container">
-      <div className="row">
-        <PieNameContext.Provider value={ [name, setName] }>
-          <div className="row-sm-4">
-            <PieNameBox></PieNameBox>
-          </div>
-          <div className="row-sm-4">
-            <PieSelectBox onClick={(e) => setShow(false)} ></PieSelectBox>
-          </div>
-        </PieNameContext.Provider>
-      
-      </div>
+        <div className="row">
+          <PieNameContext.Provider value={[name, setName]}>
+            <div className="row-sm-4">
+              <PieNameBox></PieNameBox>
+            </div>
+            <div className="row-sm-4">
+              <PieSelectBox onClick={(e) => setShow(false)}></PieSelectBox>
+            </div>
+          </PieNameContext.Provider>
+        </div>
         {show ? <FaChevronDown /> : <FaChevronUp />}
       </div>
 
@@ -83,6 +92,10 @@ const DecoratedPieChart = (props) => {
                 fontWeight: "800",
               }}
             />
+          </div>
+
+          <div>
+            <h1>{dataa}</h1>
           </div>
 
           <table>
@@ -130,6 +143,5 @@ const DecoratedPieChart = (props) => {
     </div>
   );
 };
-
 
 export default DecoratedPieChart;
