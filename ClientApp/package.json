@@ -1,5 +1,5 @@
 {
-  "name": "Bitcoin Tweets",
+  "name": "ClientApp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -56,7 +56,7 @@
     "nth-check": "^3.0.1"
   },
   "scripts": {
-    "prestart": "node aspnetcore-https && node aspnetcore-react",
+ 
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
