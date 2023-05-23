@@ -1,0 +1,15 @@
+#Bitcoin	83346
+#BTC	39983
+#bitcoin	39955
+#crypto	29373
+#cryptocurrency	22433
+#ETH	19596
+#Crypto	19571
+#btc	16855
+#Ethereum	13995
+#BNB	11182
+#altcoin	10566
+#blockchain	10187
+#eth	9950
+#crypto"	9338
+"#Ethereum	8813
