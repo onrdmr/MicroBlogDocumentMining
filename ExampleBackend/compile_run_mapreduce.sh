@@ -1,3 +1,4 @@
+hdfs dfs -rm -r /$1
 javac -classpath `hadoop classpath` $1.java
 jar -cf jar.jar $1*.class
 hadoop jar jar.jar $1 $2 /$1/count
