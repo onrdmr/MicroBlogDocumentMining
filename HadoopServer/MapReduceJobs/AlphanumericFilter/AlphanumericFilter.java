@@ -45,6 +45,8 @@ public class AlphanumericFilter {
             stopwords.add("with");
             stopwords.add("A");
             stopwords.add("B");
+            stopwords.add("me");
+            stopwords.add("you");
 
 
             // Add more stopwords as needed
