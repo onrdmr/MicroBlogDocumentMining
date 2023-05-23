@@ -3,6 +3,7 @@ import DecoratedPieChart from './DecoratedPieChart';
 import SimiliaritySearchBar from './SimiliaritySearchBar';
 import SimiliarityTextArea from './SimiliarityTextArea';
 import TopicList from './TopicList';
+import TopicComponent from './TopicComponent';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -34,10 +35,7 @@ export class Home extends Component {
             </div>
           </div>
           <div className="row-sm-4 mt-5">
-            <h3>Topics in bitcoin tweets</h3>
-            <div>
-              <TopicList></TopicList>
-            </div>
+            <TopicComponent></TopicComponent>
           </div>
         </div>
         

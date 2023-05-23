@@ -11,19 +11,27 @@ import { PieChart } from "react-minimal-pie-chart";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const DecoratedPieChart = (props) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [name, setName] = useState("bitcoin");
   const [dataa, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [count, setCount] = useState(10)
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if(show == true) {
+      fetchData();
+    }
+  }, [show]);
 
   async function fetchData() {
-    const response = await fetch("http://localhost:50030/wordcount", {mode: "cors"});
+    const response = await fetch("http://localhost:50030/", {mode: "cors"});
     const jsonData = await response.json();
+    setLoading(false)
     console.log(jsonData);
-    setData(jsonData.data.data)
+
+
+    // setData(jsonData.data.data)
   }
 
   let data = [];
@@ -53,10 +61,10 @@ const DecoratedPieChart = (props) => {
   });
 
   return (
-    <div onClick={(e) => setShow(!show)}>
+    <div >
       <div className="inline-container">
         <div className="row">
-          <PieNameContext.Provider value={[name, setName]}>
+          <PieNameContext.Provider value={[name, setName, count, setCount]}>
             <div className="row-sm-4">
               <PieNameBox></PieNameBox>
             </div>
@@ -65,11 +73,10 @@ const DecoratedPieChart = (props) => {
             </div>
           </PieNameContext.Provider>
         </div>
-        {show ? <FaChevronDown /> : <FaChevronUp />}
+        {show ? <FaChevronDown onClick={(e) => setShow(!show)}/> : <FaChevronUp onClick={(e) => setShow(!show)}/>}
       </div>
 
-      {show ? (
-        <>
+      {show ? (loading? (<p><em>Loading...</em></p>) : (<>
           <div className="chart-container">
             <PieChart
               animate
@@ -108,8 +115,10 @@ const DecoratedPieChart = (props) => {
             </thead>
             <tbody>{renderRows}</tbody>
           </table>
-        </>
-      ) : null}
+        </>) ) : null}
+
+
+      
 
       <style jsx>{`
         .chart-container {
