@@ -7,7 +7,7 @@ docker rmi hadoop_base:1
 docker build --network=host -t hadoop_base:1 .
 
 docker rmi namenode:latest
-docker build -t namenode:latest -f hdfs/namenode/Dockerfile .
+docker build --network=host -t namenode:latest -f hdfs/namenode/Dockerfile .
 
 docker rmi datanode:latest
-docker build -t datanode:latest -f hdfs/datanode/Dockerfile .
+docker build --network=host -t datanode:latest -f hdfs/datanode/Dockerfile .

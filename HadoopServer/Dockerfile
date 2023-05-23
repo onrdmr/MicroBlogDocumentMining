@@ -13,8 +13,8 @@ ENV HADOOP_TAR_NAME=hadoop.tar.gz
 #YOU ALSO NEED TO CHANGE NAME IN 'JAVA_HOME' ENVIRONMENT VARIABLE BELOW SAME GOES FOR HADOOP
 
 #install basic utils and python
-RUN apt update && \
-    apt install -y arp-scan python3
+RUN apt update
+RUN apt install -y arp-scan python3
 
 #***setup JDK***#
 WORKDIR /opt

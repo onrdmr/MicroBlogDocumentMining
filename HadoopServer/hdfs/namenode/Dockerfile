@@ -7,9 +7,16 @@ FROM hadoop_base:1
 RUN mkdir /opt/hdfs
 RUN mkdir /opt/hdfs/namenode
 
+RUN apt update
+RUN apt install -y pip
+RUN pip3 install Flask flask-cors
+
 # ***ADD FILES***
-ADD ./assets/Bitcoin_tweets_dataset_3.csv /home
+RUN mkdir /home/data
+ADD ./assets/*.csv /home/data
+
 COPY ./MapReduceJobs /home/MapReduceJobs
+ADD server.py /home
 
 # necessary before running namenode
 RUN hdfs namenode -format
