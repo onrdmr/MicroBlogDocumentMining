@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import FileUpload  from './FileUpload';
 export class Counter extends Component {
   static displayName = Counter.name;
 
@@ -18,10 +18,10 @@ export class Counter extends Component {
   render() {
     return (
       <div>
-        <h1>Counter</h1>
+        <h1>Upload a file</h1>
 
-        <p>This is a simple example of a React component.</p>
-
+        {/* <p></p> */}
+        <FileUpload></FileUpload>
         <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
 
         <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>

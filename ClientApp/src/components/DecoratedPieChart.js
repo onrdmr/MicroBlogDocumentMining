@@ -12,31 +12,84 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const DecoratedPieChart = (props) => {
   const [show, setShow] = useState(false);
-  const [name, setName] = useState("bitcoin");
-  const [dataa, setData] = useState([]);
+
+  const [pieChartData, setPieChartData] = useState(props.data)
+
+  const [name, setName] = useState("default");
+  const [statData, setStatData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [count, setCount] = useState(10)
 
-  useEffect(() => {
-    if(show == true) {
-      fetchData();
-    }
-  }, [show]);
+    useEffect(() => {
+      if(name === 'default') {
+        setLoading(false)
+        setPieChartData(props.data)
+      } else {
+        setLoading(true)
+        if(show == true) {
+          fetchData(count);
+        }
 
-  async function fetchData() {
-    const response = await fetch("http://localhost:50030/", {mode: "cors"});
+      }
+  }, [show, name, count]);
+
+  async function fetchData(count) {
+    const response = await fetch("http://localhost:50030/wordcount/" + count, {mode: "cors"});
     const jsonData = await response.json();
     setLoading(false)
-    console.log(jsonData);
+    console.log(jsonData.data.length);
+    console.log(jsonData.data)
+    
+    let totalCount = 0
+    
+    if (Array.isArray(jsonData.data)) {
+      jsonData.data.forEach((item) => {
+        // Perform logic or side effects on each item
+        totalCount += item.value
+        console.log(item);
+      });
+    } else {
+      console.log('jsonData.data is not an array.');
+    }
+    
+    // jsonData.data.data.foreach((item)=>{totalCount += item.value})
+
+    let pieChartData = []
+
+    if (Array.isArray(jsonData.data)) {
+      jsonData.data.forEach((item) => {
+        pieChartData.push({'key': item.key, 'votes': item.value, 'percentage': Math.round((item.value / totalCount) * 100)})
+        // Perform logic or side effects on each item
+        
+        console.log(item);
+      });
+    } else {
+      console.log('jsonData.data is not an array.');
+    }
+    
 
 
-    // setData(jsonData.data.data)
+    console.log(totalCount)
+    
+    // jsonData.data.data.foreach((item)=>{pieChartData.push({'key': item.key, 'votes': item.value, 'percentage': Math.round((item.value / totalCount) * 100)})})
+
+
+
+
+    // for (let i = 0 ; i < jsonData.data.length ; i++) {
+    //   pieChartData[i] = {'key': array[i].key, 'votes': array[i].value, 'percentage': Math.round((array[i].value / totalCount) * 100)}
+    // }
+
+    console.log(pieChartData)
+
+    setPieChartData(pieChartData)
+    // setStatData(jsonData.data.data)
   }
 
   let data = [];
 
-  props.data.map((obj) => {
+  pieChartData.map((obj) => {
     var randomColor = "#000000".replace(/0/g, function () {
       return (~~(Math.random() * 16)).toString(16);
     });
@@ -50,7 +103,7 @@ const DecoratedPieChart = (props) => {
     data.push(insert);
   });
 
-  const renderRows = props.data.map((obj) => {
+  const renderRows = pieChartData.map((obj) => {
     return (
       <tr key={`group-${obj.key}`}>
         <td>{obj.key}</td>
@@ -94,7 +147,7 @@ const DecoratedPieChart = (props) => {
               label={(data) => data.dataEntry.title}
               labelPosition={65}
               labelStyle={{
-                fontSize: "10px",
+                fontSize: "5px",
                 fontColor: "FFFFFA",
                 fontWeight: "800",
               }}
@@ -102,14 +155,14 @@ const DecoratedPieChart = (props) => {
           </div>
 
           <div>
-            <h1>{dataa}</h1>
+            <h1>{statData}</h1>
           </div>
 
           <table>
             <thead>
               <tr>
-                <th>Age Group</th>
-                <th>Votes</th>
+                <th>Value</th>
+                <th>Count</th>
                 <th>Percentage</th>
               </tr>
             </thead>
