@@ -7,9 +7,13 @@ FROM hadoop_base:1
 RUN mkdir /opt/hdfs
 RUN mkdir /opt/hdfs/namenode
 
-RUN apt update
-RUN apt install -y pip
+ADD ./assets/get-pip.py /home
+
+RUN python3 /home/get-pip.py
 RUN pip3 install Flask flask-cors
+
+# CONFIG
+ADD ./config-files/hdfs-site.xml $HADOOP_HOME/etc/hadoop/
 
 # ***ADD FILES***
 RUN mkdir /home/data

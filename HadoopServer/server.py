@@ -44,26 +44,20 @@ def upload_file():
     return 'File uploaded successfully'
 
 
+data_path = "/data"  # /Bitcoin_tweets_dataset_3.csv
+jobs_path = "MapReduceJobs"
 
-
-wc_jar_path = "/home/ec2-user" #/home
-text_csv_path = "/text.csv"#/Bitcoin_tweets_dataset_3.csv
-@app.route('/wordcount/<int:num>', methods=['GET'])
+@app.route('/hashtags/<int:num>', methods=['GET'])
 @cross_origin()
-def wordcount(num):
-    os.system("hadoop fs -rm -r /output")
-    os.system("rm tmp res")
-    
-    print("APPLIED : hadoop fs -rm -r /output")
-    os.system("hadoop jar " + str(wc_jar_path) + "/wc.jar " + str(text_csv_path) + " /output")
-    print("APPLIED :" + "hadoop jar " + str(wc_jar_path) + "/wc.jar " + str(text_csv_path) + " /output")
-    os.system('hadoop fs -cat /output/part-r-00000 > tmp')
-    print("APPLIED : hadoop fs -cat /output/part-r-00000 > tmp")
-    os.system('sort -k2 -nr tmp | grep "#" | head -n ' + str(num) + ' > res')
-    print('APPLIED : sort -k2 -nr tmp | grep "#" | head -n ' + str(num) +' > res')
+def hashtags(num):
+    os.system("hadoop fs -rm -r /output/hashtags")
 
+    os.system("hadoop jar " + jobs_path +
+              "/WordCount/WordCount.jar " + data_path + "/text.csv /output/hashtags")
+    os.system('hadoop fs -cat /output/hashtags/part-r-00000 | grep "#" | sort -k2 -nr | head -n ' +
+              str(num) + ' > hashtags')
 
-    file = open("res", "r")
+    file = open("hashtags", "r")
     Lines = file.readlines()
 
     res = []
@@ -74,6 +68,7 @@ def wordcount(num):
     file.close()
 
     return jsonify({'data': res})
+
 
 if __name__ == '__main__':
     app.run(host=ip_address, port=50030)

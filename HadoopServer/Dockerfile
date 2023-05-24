@@ -43,7 +43,6 @@ ENV PATH=$PATH:$HADOOP_HOME/bin
 #adding hadoop configuration files
 ADD ./config-files/hadoop-env.sh $HADOOP_HOME/etc/hadoop/
 ADD ./config-files/core-site.xml $HADOOP_HOME/etc/hadoop/
-ADD ./config-files/hdfs-site.xml $HADOOP_HOME/etc/hadoop/
 
 #!!! IMPORTANT
 # datanodes connect to namenode and for that they should know namenode's hostname and port. \
