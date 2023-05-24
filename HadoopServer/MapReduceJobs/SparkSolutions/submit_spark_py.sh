@@ -1,0 +1,1 @@
+spark-submit --master yarn --deploy-mode client --num-executors 10 --executor-cores 6 --executor-memory 5gb --driver-memory 512m --conf "spark.dynamicAllocation.enabled=true" --conf "spark.yarn.queue=root.test.B" --conf "spark.executor.memoryOverhead=2048" --conf "spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version=2" $1
