@@ -1,0 +1,14 @@
+
+<configuration>
+
+    <property>
+	 <name>yarn.resourcemanager.hostname</name>
+	<value>172.31.85.110</value>
+    </property>
+ 
+    <property>
+         <name>yarn.log-aggregation-enable</name>
+         <value>true</value>
+    </property>
+
+</configuration>

@@ -1,0 +1,1 @@
+flintrock stop bigdata-cluster
