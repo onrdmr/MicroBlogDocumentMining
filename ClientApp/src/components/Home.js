@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DecoratedPieChart from './DecoratedPieChart';
 import SimiliaritySearchBar from './SimiliaritySearchBar';
 import SimiliarityTextArea from './SimiliarityTextArea';
-import TopicList from './TopicList';
+// import TopicList from './TopicList';
 import TopicComponent from './TopicComponent';
 
 export class Home extends Component {

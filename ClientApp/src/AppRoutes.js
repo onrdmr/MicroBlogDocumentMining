@@ -8,11 +8,11 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
+    path: '/upload',
     element: <Counter />
   },
   {
-    path: '/fetch-data',
+    path: '/clean-data',
     element: <FetchData />
   }
 ];
