@@ -35,7 +35,7 @@ const DecoratedPieChart = (props) => {
   }, [show, name, count]);
 
   async function fetchData(count) {
-    const response = await fetch("http://localhost:50030/wordcount/" + count, {mode: "cors"});
+    const response = await fetch("http://localhost:50030/"+ name + "/" + count, {mode: "cors"});
     const jsonData = await response.json();
     setLoading(false)
     console.log(jsonData.data.length);

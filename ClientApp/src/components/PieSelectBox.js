@@ -16,9 +16,9 @@ const PieSelectBox = () => {
       <div>
         <select value={selectedOption} onChange={handleSelectChange}>
           <option value="default">Select an option</option>
-          <option value="bitcoin">Bitcoin</option>
+          <option value="hashtags">Hashtags</option>
+          <option value="username">Username</option>
           <option value="unicode">Unicode</option>
-          <option value="personal">Personal</option>
           <option value="language">Language</option>
 
         </select>
