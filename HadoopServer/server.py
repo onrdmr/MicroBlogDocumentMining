@@ -212,5 +212,5 @@ def unicodeCount(num):
 
 
 if __name__ == '__main__':
-    # app.run(host=ip_address, port=50030)
-    app.run(port=50030)
+    app.run(host=ip_address, port=50030)
+    # app.run(port=50030)
