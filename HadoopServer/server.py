@@ -23,14 +23,6 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-chunkStateFlag = True
-
-@app.before_first_request
-def setup():
-    os.system("hdfs dfsadmin -safemode leave")
-    # Code to execute when the server starts
-    print("Flask server started!")
-
 
 @app.route('/', methods=['GET', 'POST'])
 @cross_origin()
@@ -47,13 +39,28 @@ def disp(num):
 
     return jsonify({'data': num**2})
 
+
+chunkdata = ""
+
+
 @app.route('/clearFlagOverwrite/<filename>/<int:blocksize>', methods=['POST'])
 @cross_origin()
 def clearOverwriteflag(filename, blocksize):
-    chunkStateFlag = True # now it can malke upload
+    global chunkdata
 
     os.chdir(current_directory)
-    # command = "du -h ./../" + filename 
+
+    print(chunkdata[:10])
+
+    file_path = './received/' + filename
+    os.system("mkdir -p received")
+
+    with open(file_path, 'w') as file:
+        file.write(chunkdata)
+
+    chunkdata = ""
+
+    # command = "du -h ./../" + filename
     # output = subprocess.check_output(command, shell=True)
 
     # # Decode the output from bytes to string
@@ -64,68 +71,65 @@ def clearOverwriteflag(filename, blocksize):
     # if ( sizeType == 'K' ):
 
     # elif ( sizeType == 'M' ):
-    
-    # elif ( ord(sizeType) < 58  ):
-    #     return 
 
+    # elif ( ord(sizeType) < 58  ):
+    #     return
 
     # Veriyi hdfs e yaz
     os.system("hdfs dfs -rm /" + filename)
-    os.system("hdfs dfs " + " -Ddfs.blocksize=" + str(blocksize) + " -put "+ " ./../" + filename + " /")
+    os.system("hdfs dfs -D dfs.blocksize=" + str(blocksize) +
+              " -put ./received/" + filename + " /")
 
     return jsonify({'data': 'Okkei'})
 
-def overwrite_text(file_path, new_text):
-    with open(file_path, 'w') as file:
+
+def append(file_path, new_text):
+    with open(file_path, 'a') as file:
         file.write(new_text)
+
 
 @app.route('/upload/<name>', methods=['POST'])
 @cross_origin()
 def upload_file(name):
+    global chunkdata
+
     # if 'file' not in request.files:
     #     return 'No file found', 400
 
     # file = request.files['file']
     # # Do whatever you want with the file, such as saving it to disk or processing it
 
-    chunkStateFlag = False
     os.chdir(current_directory)
 
     chunk = request.get_data(as_text=True)
 
+    chunkdata = chunkdata + chunk
     # Process the received chunk
-    print('Received chunk:', chunk)
+    # print('Received chunk:', chunk)
 
     # Decode the chunk from Base64 format
     # decoded_chunk = base64.b64decode(chunk)
 
     # Process the decoded chunk as needed
     # print('Decoded chunk:', decoded_chunk)
-    
-    os.chdir('..')
-    overwrite_text('./' + name, chunk)
 
-
+    # os.chdir('data')
 
     # if file:
-    #     file.save('/home/ec2-user/onur') 
+    #     file.save('/home/ec2-user/onur')
     #     return 'File uploaded successfully'
-    
-    
+
     return 'File upload failed'
 
-
-data_path = "/"  # /Bitcoin_tweets_dataset_3.csv # normal gerekli dosyalar / dizinde
-jobs_path = "MapReduceJobs"
 
 @app.route('/hashtags/<int:num>', methods=['GET'])
 @cross_origin()
 def hashtags(num):
-    
+
     os.system("hadoop fs -rm -r /output")
 
-    os.system("hadoop jar " + jobs_path +
-              "/WordCount/WordCount.jar " + data_path + "/text.csv /output/hashtags")
+    os.system(
+        "hadoop jar MapReduceJobs/WordCount/WordCount.jar /text /output/hashtags")
     os.system('hadoop fs -cat /output/hashtags/part-r-00000 | grep "#" | sort -k2 -nr | head -n ' +
               str(num) + ' > hashtags')
 
@@ -141,8 +145,8 @@ def hashtags(num):
 
     os.chdir(current_directory)
 
-
     return jsonify({'data': res})
+
 
 @app.route('/cleanData', methods=['POST'])
 @cross_origin()
@@ -155,7 +159,6 @@ def cleanData():
     return True
 
 
-
 @app.route('/username/<int:num>', methods=['GET'])
 @cross_origin()
 def usernameCount(num):
@@ -164,8 +167,10 @@ def usernameCount(num):
     os.system("hdfs dfs -rm -r /SecondarySort")
     os.system("./../compile_run_mapreduce.sh UsernameCount /username")
     os.chdir('./../SecondarySort')
-    os.system('./../compile_run_mapreduce.sh SecondarySort /UsernameCount/count/part-r-00000')
-    os.system("hdfs dfs -cat /SecondarySort/count/part-r-00000 | tail -n " + str(num) + " > usernameCount")
+    os.system(
+        './../compile_run_mapreduce.sh SecondarySort /UsernameCount/count/part-r-00000')
+    os.system("hdfs dfs -cat /SecondarySort/count/part-r-00000 | tail -n " +
+              str(num) + " > usernameCount")
 
     file = open("usernameCount", "r")
     Lines = file.readlines()
@@ -177,10 +182,10 @@ def usernameCount(num):
 
     file.close()
 
-
     os.chdir(current_directory)
 
     return jsonify({'data': res})
+
 
 @app.route('/unicode/<int:num>', methods=['GET'])
 @cross_origin()
@@ -191,8 +196,10 @@ def unicodeCount(num):
     os.system("hdfs dfs -rm -r /SecondarySort")
     os.system("./../compile_run_mapreduce.sh UnicodeCount /username")
     os.chdir('./../SecondarySort')
-    os.system('./../compile_run_mapreduce.sh SecondarySort /UnicodeCount/count/part-r-00000')
-    os.system("hdfs dfs -cat /SecondarySort/count/part-r-00000 | tail -n " + str(num) + " > unicodeCount")
+    os.system(
+        './../compile_run_mapreduce.sh SecondarySort /UnicodeCount/count/part-r-00000')
+    os.system("hdfs dfs -cat /SecondarySort/count/part-r-00000 | tail -n " +
+              str(num) + " > unicodeCount")
 
     file = open("unicodeCount", "r")
     Lines = file.readlines()
@@ -204,11 +211,9 @@ def unicodeCount(num):
 
     file.close()
 
-
     os.chdir(current_directory)
 
     return jsonify({'data': res})
-
 
 
 if __name__ == '__main__':

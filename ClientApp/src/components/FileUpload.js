@@ -48,12 +48,12 @@ const FileUpload = () => {
       let fileContent = ""
       var reader = new FileReader();
 
+      const urlFlag = "http://127.0.0.1:50030/clearFlagOverwrite/" + selectedFile.name + "/" + blockSize
       
       reader.onload = async function (e) {
         const fileContent = reader.result;
         console.log('File content:', fileContent);
         const url = 'http://127.0.0.1:50030/upload/' + selectedFile.name; // Replace with your server URL
-        const urlFlag = "http://127.0.0.1:50030/clearFlagOverwrite/" + selectedFile.name + "/" + blockSize
         // no need to chunk transfer
         const chunks = getChunks(fileContent); // Split the data into chunks
         
@@ -80,7 +80,7 @@ const FileUpload = () => {
               body: chunk,
               headers: headers,
             });
-      
+
             responses.push(response);
       
             if (response.ok) {
@@ -88,54 +88,56 @@ const FileUpload = () => {
               // Handle the successful response for the chunk
               setDisableButton(false)
 
-              const postData = {
-                status: 'clear',
-              };
+             
 
-              await fetch(urlFlag, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(postData),
-              }).then((response) => {
-                if (response.ok) {
-                  // Successful request
-                  return response.json();
-                } else {
-                  // Handle error response
-                  throw new Error('Error: ' + response.status);
-                }
-              })
-              .then((data) => {
-                // Handle the response data
-                console.log('Response:', data);
-              })
-              .catch((error) => {
-                // Handle the error
-                console.error('Error:', error);
-              });
+              
 
             } else {
               console.error(`Error uploading chunk ${index + 1}:`, response.status);
               // Handle the error response for the chunk
             }
           }
-      
+          
           // Process the responses as needed
           responses.forEach((response, index) => {
             // Handle the response for each chunk
             console.log(`Response for chunk ${index + 1}:`, response);
           });
+
+          const postData = {
+            status: 'clear',
+          };
+
+          await fetch(urlFlag, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData),
+          }).then((response) => {
+            if (response.ok) {
+              // Successful request
+              return response.json();
+            } else {
+              // Handle error response
+              throw new Error('Error: ' + response.status);
+            }
+          }).then((data) => {
+            // Handle the response data
+            console.log('Response:', data);
+          }).catch((error) => {
+            // Handle the error
+            console.error('Error:', error);
+          });
+      
         } catch (error) {
           console.error('Error uploading chunks:', error);
           // Handle any network or other errors
         }
-
+        
 
       };
       
       reader.readAsText(file);
       
-
       
     } else {
       console.log("No file selected.")

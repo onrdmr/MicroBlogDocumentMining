@@ -1,5 +1,8 @@
 #!/bin/bash
 
+scriptdir=$(dirname $0)
+pushd $scriptdir
+
 jobs=("WordCount" "UsernameCount")
 
 for job in ${jobs[@]}; 
