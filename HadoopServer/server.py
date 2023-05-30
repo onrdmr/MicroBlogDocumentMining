@@ -25,6 +25,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 chunkStateFlag = True
 
+@app.before_first_request
+def setup():
+    os.system("hdfs dfsadmin -safemode leave")
+    # Code to execute when the server starts
+    print("Flask server started!")
+
+
 @app.route('/', methods=['GET', 'POST'])
 @cross_origin()
 def home():
@@ -108,13 +115,14 @@ def upload_file(name):
     return 'File upload failed'
 
 
-data_path = "/data"  # /Bitcoin_tweets_dataset_3.csv
+data_path = "/"  # /Bitcoin_tweets_dataset_3.csv # normal gerekli dosyalar / dizinde
 jobs_path = "MapReduceJobs"
 
 @app.route('/hashtags/<int:num>', methods=['GET'])
 @cross_origin()
 def hashtags(num):
-    os.system("hadoop fs -rm -r /output/hashtags")
+    
+    os.system("hadoop fs -rm -r /output")
 
     os.system("hadoop jar " + jobs_path +
               "/WordCount/WordCount.jar " + data_path + "/text.csv /output/hashtags")
@@ -152,6 +160,8 @@ def cleanData():
 @cross_origin()
 def usernameCount(num):
     os.chdir('./MapReduceJobs/UsernameCount')
+    os.system("hdfs dfs -rm -r /UsernameCount")
+    os.system("hdfs dfs -rm -r /SecondarySort")
     os.system("./../compile_run_mapreduce.sh UsernameCount /username")
     os.chdir('./../SecondarySort')
     os.system('./../compile_run_mapreduce.sh SecondarySort /UsernameCount/count/part-r-00000')
@@ -176,6 +186,9 @@ def usernameCount(num):
 @cross_origin()
 def unicodeCount(num):
     os.chdir('./MapReduceJobs/UnicodeCount')
+    os.system("hdfs dfs -rm -r /UnicodeCount")
+
+    os.system("hdfs dfs -rm -r /SecondarySort")
     os.system("./../compile_run_mapreduce.sh UnicodeCount /username")
     os.chdir('./../SecondarySort')
     os.system('./../compile_run_mapreduce.sh SecondarySort /UnicodeCount/count/part-r-00000')
