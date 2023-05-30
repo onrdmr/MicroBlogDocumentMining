@@ -35,7 +35,11 @@ const DecoratedPieChart = (props) => {
   }, [show, name, count]);
 
   async function fetchData(count) {
+<<<<<<< HEAD
     const response = await fetch("http://localhost:50030/"+ name + "/" + count, {mode: "cors"});
+=======
+    const response = await fetch("http://localhost:50030/hashtags/" + count, {mode: "cors"});
+>>>>>>> d5b07fbed621d6eab8453aaedc4daf3e7636b6b7
     const jsonData = await response.json();
     setLoading(false)
     console.log(jsonData.data.length);

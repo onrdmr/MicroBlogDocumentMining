@@ -40,11 +40,33 @@ def disp(num):
 
     return jsonify({'data': num**2})
 
-@app.route('/clearFlagOverwrite', methods=['GET'])
+@app.route('/clearFlagOverwrite/<filename>/<int:blocksize>', methods=['POST'])
 @cross_origin()
-def clearOverwriteflag():
+def clearOverwriteflag(filename, blocksize):
     chunkStateFlag = True # now it can malke upload
-    return 'Okkei'
+
+    os.chdir(current_directory)
+    # command = "du -h ./../" + filename 
+    # output = subprocess.check_output(command, shell=True)
+
+    # # Decode the output from bytes to string
+    # output = output.decode('utf-8')
+
+    # sizeType = output[-1]
+    #  = int(float(output[:-1]))
+    # if ( sizeType == 'K' ):
+
+    # elif ( sizeType == 'M' ):
+    
+    # elif ( ord(sizeType) < 58  ):
+    #     return 
+
+
+    # Veriyi hdfs e yaz
+    os.system("hdfs dfs -rm /" + filename)
+    os.system("hdfs dfs " + " -Ddfs.blocksize=" + str(blocksize) + " -put "+ " ./../" + filename + " /")
+
+    return jsonify({'data': 'Okkei'})
 
 def overwrite_text(file_path, new_text):
     with open(file_path, 'w') as file:
@@ -59,7 +81,7 @@ def upload_file(name):
     # file = request.files['file']
     # # Do whatever you want with the file, such as saving it to disk or processing it
 
-    chunkStateFlag = false
+    chunkStateFlag = False
     os.chdir(current_directory)
 
     chunk = request.get_data(as_text=True)
@@ -74,7 +96,7 @@ def upload_file(name):
     # print('Decoded chunk:', decoded_chunk)
     
     os.chdir('..')
-    overwrite_text('./'+ name, chunk)
+    overwrite_text('./' + name, chunk)
 
 
 
@@ -177,5 +199,5 @@ def unicodeCount(num):
 
 
 if __name__ == '__main__':
-    # app.run(host=ip_address, port=50030)
-    app.run(port=50030)
+    app.run(host=ip_address, port=50030)
+    # app.run(port=50030)
