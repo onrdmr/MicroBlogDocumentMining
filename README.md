@@ -3,3 +3,6 @@ This project is data mining project. It uses big data tools for deduction of a k
 # This project has two subfolder
 1. Hadoop Server is server side program.(flask api calls hadoop map reduce calls.)
 2. Hadoop Client is client side program that interact with flask api. It has nice looking BI dashboard. 
+
+# How many count of that word is there in twitter?
+![Ekran görüntüsü 2023-05-23 163501](https://github.com/user-attachments/assets/b9e2811e-f062-43a9-8daf-26659cd3680d)
