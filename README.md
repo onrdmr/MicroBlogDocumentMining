@@ -10,3 +10,6 @@ This project is data mining project. It uses big data tools for deduction of a k
 
 ## GUI 2
 ![Ekran görüntüsü 2023-05-30 172517](https://github.com/user-attachments/assets/cb4daa0c-c972-4648-97e4-c11a170d2c8c)
+
+## GUI 3
+![Ekran görüntüsü 2023-05-27 165709](https://github.com/user-attachments/assets/99d97a3e-8595-41ae-91b1-6f188b3720a5)
